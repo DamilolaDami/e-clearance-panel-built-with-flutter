@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_admin_scaffold/admin_scaffold.dart';
 import 'package:schoolmanagement/auths/authmodels/sidemenus.dart';
@@ -226,6 +227,15 @@ class _StudentsState extends State<Students> {
                      services.clearedStudents(
                        id: document.data()!['email'],
                        cleared:  document.data()!['cleared'] ? false:true,
+                     );
+                   document.data()!['cleared']== true?
+                     services.updateCleared(
+                       email: document.data()!['email'] ,
+                       date: DateFormat('yMMMd').format(DateTime.now()),
+                     ): 
+                      services.updateBlocked(
+                           email: document.data()!['email'] ,
+                       date: DateFormat('yMMMd').format(DateTime.now()),
                      );
                         Navigator.pop(context);
                    }, child: Text("Confirm"))

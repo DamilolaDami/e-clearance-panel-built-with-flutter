@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -12,6 +13,8 @@ class FirebaseServices {
       FirebaseFirestore.instance.collection("users");
   CollectionReference admins =
       FirebaseFirestore.instance.collection("Admin");
+      CollectionReference recentctivities =
+      FirebaseFirestore.instance.collection("recentactivies");
   //FirebaseStorage storage = FirebaseStorage.instance;
 
   Future<DocumentSnapshot> getAdmindetaiils(id) async {
@@ -123,5 +126,25 @@ class FirebaseServices {
       'cleared': cleared,
        
     });
+  }
+  Future<void>updateCleared({String? title, message, email, date})async{
+    User? user = FirebaseAuth.instance.currentUser;
+    recentctivities.doc().set({
+      'title': 'Cleared Status',
+       'message': 'you have been cleared successfully',
+       'date': date,
+       'email': email,
+    });
+
+  }
+   Future<void>updateBlocked({String? title, message, email, date})async{
+    User? user = FirebaseAuth.instance.currentUser;
+    recentctivities.doc().set({
+      'title': 'Cleared Status',
+       'message': 'you have been blocked',
+       'date': date,
+       'email': email,
+    });
+
   }
 }
